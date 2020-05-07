@@ -26,15 +26,5 @@ services:
    - kafka
   networks:
     - kafka-net
- consumer:
-  container_name: consumer
-  image: 68758810/kafkaconsumer
-  environment:
-    - "KAFKA_SERVER=kafka"
-    - "KAFKA_TOPIC=oetker_data_topic"
-  depends_on: 
-   - kafka
-  networks:
-    - kafka-net
 networks:
  kafka-net:
