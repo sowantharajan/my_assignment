@@ -20,7 +20,7 @@ services:
   image: 68758810/kafkaproducer
   environment:
     - "KAFKA_SERVER=kafka"
-    - "KAFKA_TOPIC=data_topic"
+    - "KAFKA_TOPIC=oetker_data_topic"
     - "DATA_ORIGIN=https://storage.googleapis.com/datascience-public/data-eng-challenge/MOCK_DATA.json"
   depends_on: 
    - kafka
