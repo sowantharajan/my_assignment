@@ -1,0 +1,40 @@
+version: '3'
+services:
+ zookeeper:
+  container_name: zookeeper
+  image: zookeeper:latest
+  networks:
+   - kafka-net
+ kafka:
+  container_name: kafka
+  image: ches/kafka
+  environment:
+   - "ZOOKEEPER_IP=zookeeper"
+  restart: on-failure
+  depends_on: 
+   - zookeeper
+  networks:
+   - kafka-net
+ producer:
+  container_name: producer
+  image: 68758810/kafkaproducer
+  environment:
+    - "KAFKA_SERVER=kafka"
+    - "KAFKA_TOPIC=data_topic"
+    - "DATA_ORIGIN=https://storage.googleapis.com/datascience-public/data-eng-challenge/MOCK_DATA.json"
+  depends_on: 
+   - kafka
+  networks:
+    - kafka-net
+ consumer:
+  container_name: consumer
+  image: 68758810/kafkaconsumer
+  environment:
+    - "KAFKA_SERVER=kafka"
+    - "KAFKA_TOPIC=oetker_data_topic"
+  depends_on: 
+   - kafka
+  networks:
+    - kafka-net
+networks:
+ kafka-net:
