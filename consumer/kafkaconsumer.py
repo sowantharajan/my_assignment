@@ -42,49 +42,6 @@ def consume_data(kafka_topic):
 			# Call to function date to show the most used common days and months
 			date(message)
 
-			
-def is_valid_ip_format(ip):
-    if not ip:
-        return False
-
-    a = ip.split('.')
-
-    if len(a) != 4:
-        return False
-    for x in a:
-        if not x.isdigit():
-            return False
-        i = int(x)
-        if i < 0 or i > 255:
-            return False
-    return True
-
-
-def is_valid_date(date_value):
-    try:
-        datetime.datetime.strptime(date_value, '%d/%m/%Y')
-    except ValueError:
-        return False
-
-    return True
-
-
-def is_valid(row):
-    valid_ip_format = is_valid_ip_format(row.get('ip_address'))
-    valid_date = is_valid_date(row.get('date'))
-
-    return valid_ip_format and valid_date
-
-
-def clean_entry():
-    def meth(row):
-        # Uppercase first letter of the country
-        # e.g. Germany, germany, GeRmany -> Germany
-        country = row['country'].lower().capitalize()
-        row['country'] = country
-        return Row(**row)
-    return meth			
-
 def n_unique_users(message):
 	# It has been considered the first_name and last_name together as unique identifier 
 	user = {"first_name": message["first_name"], "last_name": message["last_name"]}
