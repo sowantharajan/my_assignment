@@ -19,7 +19,54 @@ ssc = StreamingContext(sc, 60)
 
 kafkaStream = KafkaUtils.createDirectStream(ssc, [kafka_topic], {"metadata.broker.list": kafka_server})
 
-messages = kafkaStream.map(lambda x: json.loads(x[1]))
+def is_valid_ip_format(ip):
+    if not ip:
+        return False
+
+    a = ip.split('.')
+
+    if len(a) != 4:
+        return False
+    for x in a:
+        if not x.isdigit():
+            return False
+        i = int(x)
+        if i < 0 or i > 255:
+            return False
+    return True
+
+
+def is_valid_date(date_value):
+    try:
+        datetime.datetime.strptime(date_value, '%d/%m/%Y')
+    except ValueError:
+        return False
+
+    return True
+
+
+def is_valid(row):
+    valid_ip_format = is_valid_ip_format(row.get('ip_address'))
+    valid_date = is_valid_date(row.get('date'))
+
+    return valid_ip_format and valid_date
+
+
+def clean_entry():
+    def meth(row):
+        # Uppercase first letter of the country
+        # e.g. Germany, germany, GeRmany -> Germany
+        country = row['country'].lower().capitalize()
+        row['country'] = country
+        return Row(**row)
+    return meth
+
+
+# Load the streamed data - messages
+# Filter out improper data - valid items
+stream_messages = kafkaStream.map(lambda x: json.loads(x[1]))
+valid_items = stream_messages.filter(lambda item: is_valid(item))
+messages = valid_items.map(clean_entry())
 
 
 def n_unique_users(messages):
