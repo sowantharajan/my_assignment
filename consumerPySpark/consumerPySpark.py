@@ -6,7 +6,7 @@ import json
 
 
 
-kafka_server = "localhost:9092" 
+kafka_server = "localhost:9092" //"172.22.0.3:9092"
 kafka_topic = "oetker_data_topic"
 
 
