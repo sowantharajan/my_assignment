@@ -13,7 +13,8 @@ Used Direct Stream , Lambda function and RDD without any DF and Datastream
 
 
 How to run - local mode
-Consumer streaming Run
+
+Consumer streaming job
 
 Download Spark. Install py dependencies. pip3 install -t dependencies -r <path_to>/dockers/consumer/requirements.txt --no-cache-dir cd dependencies && zip -r ../dependencies.zip .
 
