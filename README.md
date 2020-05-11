@@ -10,3 +10,18 @@ Directly execute the docker-compose.yml file
 This is very short and sweet project code without more packages and others.
 
 Used Direct Stream , Lambda function and RDD without any DF and Datastream
+
+
+How to run - local mode
+Consumer streaming Run
+
+Download Spark. Install py dependencies. pip3 install -t dependencies -r <path_to>/dockers/consumer/requirements.txt --no-cache-dir cd dependencies && zip -r ../dependencies.zip .
+
+This will essentially create a folder with required packages downloaded. Navigate to the folder and zip into one.
+
+export PYSPARK_PYTHON=python3 to use Python 3
+
+./bin/spark-submit \
+      --jars <path_to>/dockers/consumer/spark-streaming-kafka-0-8-assembly_2.11-2.4.4.jar \
+      --py-files <path_to>/dependencies.zip \
+      <path_to>/consumerPySpark/consumerPySpark.py
