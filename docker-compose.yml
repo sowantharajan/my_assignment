@@ -17,7 +17,7 @@ services:
    - kafka-net
  producer:
   container_name: producer
-  image: 68758810/kafkaproducer
+  image: 68758810/kafkaproducer:V1
   environment:
     - "KAFKA_SERVER=kafka"
     - "KAFKA_TOPIC=oetker_data_topic"
